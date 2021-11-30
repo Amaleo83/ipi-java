@@ -12,7 +12,7 @@ public class Employe {
     private String prenom;
     private String matricule;
     private LocalDate dateEmbauche;
-    private Double salaire;
+    private Double salaire = Entreprise.SALAIRE_BASE;
 
     public Employe() {
     }
@@ -32,8 +32,20 @@ public class Employe {
         return Entreprise.NB_CONGES_BASE;
     }
 
-    public String toString(){
-        return "Employe{nom='nom', prenom='prenom', matricule='null', dateEmbauche=1970-01-01, salaire=500.0}";
+    public Double getPrimeAnnuelle(){
+        return Entreprise.primeAnnuelleBase();
+    }
+
+
+    @Override
+    public String toString() {
+        return "Employe{" +
+                "nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", matricule='" + matricule + '\'' +
+                ", dateEmbauche=" + dateEmbauche +
+                ", salaire=" + salaire +
+                '}';
     }
 
     @Override
@@ -47,6 +59,10 @@ public class Employe {
     @Override
     public int hashCode() {
         return Objects.hash(getNom(), getPrenom(), getMatricule(), getDateEmbauche(), getSalaire());
+    }
+
+    public void augmenterSalaire(Double augmentation){
+        this.salaire = this.getSalaire() * (1 + augmentation);
     }
 
     public String getNom() {

@@ -1,110 +1,151 @@
 package com.ipiecoles.java.java220;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDate;
 
 import java.util.Objects;
 
-/**
- * Created by pjvilloud on 21/09/17.
- */
-public class Employe {
-    private String nom;
-    private String prenom;
-    private String matricule;
-    private LocalDate dateEmbauche;
-    private Double salaire = Entreprise.SALAIRE_BASE;
+public abstract class Employe {
+	
+	private String nom;
+	
+	private String prenom;
 
-    public Employe() {
-    }
+	private String matricule;
+	
+	private LocalDate dateEmbauche;
+	
+	private Double salaire = Entreprise.SALAIRE_BASE;
+	
+	public Employe() {
+		
+	}
+	
+	public Employe(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire) {
+		this.nom = nom;
+		this.prenom = prenom;
+		this.matricule = matricule;
+		this.dateEmbauche = dateEmbauche;
+		this.salaire = salaire;
+	}
 
-    public Employe(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.matricule = matricule;
-        this.dateEmbauche = dateEmbauche;
-        this.salaire = salaire;
-    }
-    public final Integer getNombreAnneeAnciennete(){
-        Integer nbAnneeAnciennete = LocalDate.now().getYear() - this.dateEmbauche.getYear();
-        return nbAnneeAnciennete;
-    }
-    public static Integer getNbConges(){
-        return Entreprise.NB_CONGES_BASE;
-    }
+	public final Integer getNombreAnneeAnciennete() {
+		return LocalDate.now().getYear() - dateEmbauche.getYear();
+	}
+	
+	public Integer getNbConges() {
+		return Entreprise.NB_CONGES_BASE;
+	}
+	
+	public abstract Double getPrimeAnnuelle();
 
-    public Double getPrimeAnnuelle(){
-        return Entreprise.primeAnnuelleBase();
-    }
+	public void augmenterSalaire(Double pourcentage) {
+		this.salaire = this.getSalaire() * (1 + pourcentage);
+	}
+	
+	/**
+	 * @return the nom
+	 */
+	public String getNom() {
+		return nom;
+	}
 
+	/**
+	 * @param nom the nom to set
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
 
-    @Override
-    public String toString() {
-        return "Employe{" +
-                "nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", matricule='" + matricule + '\'' +
-                ", dateEmbauche=" + dateEmbauche +
-                ", salaire=" + salaire +
-                '}';
-    }
+	/**
+	 * @return the prenom
+	 */
+	public String getPrenom() {
+		return prenom;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Employe)) return false;
-        Employe employe = (Employe) o;
-        return Objects.equals(getNom(), employe.getNom()) && Objects.equals(getPrenom(), employe.getPrenom()) && Objects.equals(getMatricule(), employe.getMatricule()) && Objects.equals(getDateEmbauche(), employe.getDateEmbauche()) && Objects.equals(getSalaire(), employe.getSalaire());
-    }
+	/**
+	 * @param prenom the prenom to set
+	 */
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getNom(), getPrenom(), getMatricule(), getDateEmbauche(), getSalaire());
-    }
+	/**
+	 * @return the matricule
+	 */
+	public String getMatricule() {
+		return matricule;
+	}
 
-    public void augmenterSalaire(Double augmentation){
-        this.salaire = this.getSalaire() * (1 + augmentation);
-    }
+	/**
+	 * @param matricule the matricule to set
+	 */
+	public void setMatricule(String matricule) {
+		this.matricule = matricule;
+	}
 
-    public String getNom() {
-        return nom;
-    }
+	/**
+	 * @return the dateEmbauche
+	 */
+	public LocalDate getDateEmbauche() {
+		return dateEmbauche;
+	}
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+	/**
+	 * @param dateEmbauche the dateEmbauche to set
+	 * @throws Exception 
+	 */
+	public void setDateEmbauche(LocalDate dateEmbauche) throws Exception {
+		if(dateEmbauche != null && dateEmbauche.isAfter(LocalDate.now())) {
+			throw new Exception("La date d'embauche ne peut être postérieure à la date courante");
+		}
+		this.dateEmbauche = dateEmbauche;
+	}
 
-    public String getPrenom() {
-        return prenom;
-    }
+	/**
+	 * @return the salaire
+	 */
+	public Double getSalaire() {
+		return salaire;
+	}
+	
+	/**
+	 * @param salaire the salaire to set
+	 */
+	public void setSalaire(Double salaire) {
+		this.salaire = salaire;
+	}
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("Employe{");
+		sb.append("nom='").append(nom).append('\'');
+		sb.append(", prenom='").append(prenom).append('\'');
+		sb.append(", matricule='").append(matricule).append('\'');
+		sb.append(", dateEmbauche=").append(dateEmbauche);
+		sb.append(", salaire=").append(salaire);
+		sb.append('}');
+		return sb.toString();
+	}
 
-    public String getMatricule() {
-        return matricule;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Employe)) return false;
 
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
-    }
+		Employe employe = (Employe) o;
 
-    public LocalDate getDateEmbauche() {
-        return dateEmbauche;
-    }
+		if (Double.compare(employe.salaire, salaire) != 0) return false;
+		if (nom != null ? !nom.equals(employe.nom) : employe.nom != null) return false;
+		if (prenom != null ? !prenom.equals(employe.prenom) : employe.prenom != null) return false;
+		if (matricule != null ? !matricule.equals(employe.matricule) : employe.matricule != null) return false;
+		return dateEmbauche != null ? dateEmbauche.equals(employe.dateEmbauche) : employe.dateEmbauche == null;
 
-    public void setDateEmbauche(LocalDate dateEmbauche) throws Exception {
-        if (dateEmbauche != null && dateEmbauche.isAfter(LocalDate.now())){
-            throw new Exception("La date d'embauche ne peut être postérieure à la date courante");
-        }
-        this.dateEmbauche = dateEmbauche;
-    }
+	}
 
-    public Double getSalaire() {
-        return salaire;
-    }
-
-    public void setSalaire(Double salaire) {
-        this.salaire = salaire;
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(nom, prenom, matricule, dateEmbauche, salaire);
+	}
 }

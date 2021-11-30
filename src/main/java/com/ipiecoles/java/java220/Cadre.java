@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 
 import java.util.Objects;
 
-public class Cadre extends Employe{
+public class Cadre extends Employe {
     private Double coefficient = 1d;
 
     public Cadre(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire, Boolean tempsPartiel, String sexe) {
@@ -17,7 +17,7 @@ public class Cadre extends Employe{
     }
 
     public Integer getNbConges() {
-        return (int)(coefficient + super.getNbConges());
+        return (int) Math.round(coefficient + super.getNbConges());
     }
 
     public Double getCoefficient() {

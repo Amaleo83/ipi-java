@@ -11,6 +11,11 @@ public class Cadre extends Employe {
         super(nom, prenom, matricule, dateEmbauche, salaire, tempsPartiel, sexe);
     }
 
+    public Cadre(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire, Boolean tempsPartiel, String sexe, Double coefficient) {
+        super(nom, prenom, matricule, dateEmbauche, salaire, tempsPartiel, sexe);
+        this.coefficient = coefficient;
+    }
+
     @Override
     public Double getPrimeAnnuelle() {
         return Entreprise.primeAnnuelleBase() * coefficient;
@@ -32,6 +37,7 @@ public class Cadre extends Employe {
     public String toString() {
         return "Cadre{" +
                 "coefficient=" + coefficient +
+                super.toString() +
                 '}';
     }
 
